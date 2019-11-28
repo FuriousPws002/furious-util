@@ -39,11 +39,11 @@ public abstract class Objects {
         }
     }
 
-    private static Field[] fields(Object obj) {
+    public static Field[] fields(Object obj) {
         return obj.getClass().getDeclaredFields();
     }
 
-    private static Field field(Object obj, String name) {
+    public static Field field(Object obj, String name) {
         Field f = null;
         try {
             f = obj.getClass().getDeclaredField(name);
@@ -52,4 +52,28 @@ public abstract class Objects {
         }
         return f;
     }
+
+    /**
+     * final not working
+     */
+    public static void put(Object obj, Field field, Object value) {
+        FieldOffset fo = new FieldOffset(obj, field);
+        fo.put(value);
+    }
+
+    public static void put(Object obj, String name, Object value) {
+        Field field = field(obj, name);
+        put(obj, field, value);
+    }
+
+    public static Object get(Object obj, Field field) {
+        FieldOffset fo = new FieldOffset(obj, field);
+        return fo.get();
+    }
+
+    public static Object get(Object obj, String name) {
+        Field field = field(obj, name);
+        return get(obj, field);
+    }
+
 }
